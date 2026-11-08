@@ -59,6 +59,7 @@ My recipes, published at **https://yoorkevich.github.io/recipes/**.
 | `# Title` (first line) | Recipe title and index entry |
 | Text before the first `##` | Intro shown above the steps |
 | `## Step name` | One step card |
+| `- [ ] **qty** name, prep…` inside a step | Also listed in the **Ingredients** box at the top (name = text up to the first comma or bracket; same name + unit across steps is summed) |
 | `- [ ] item` inside a step | Tickable item. Ticking the last one folds the card away and moves to the next step |
 | `---` | Ignored (cards already separate steps) |
 

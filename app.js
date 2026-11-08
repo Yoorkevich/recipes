@@ -97,6 +97,35 @@ function scaleQuantities(spans, factor) {
   }
 }
 
+// An ingredient is a step item that starts with a bold quantity: "**340 g** skirt steak, sliced…".
+// Its name is the text up to the first comma/bracket. Same name + unit across steps are summed.
+function collectIngredients(root) {
+  const byKey = new Map();
+  for (const li of root.querySelectorAll('.step-body li')) {
+    const strong = [...li.children].find(el => el.tagName !== 'INPUT');
+    if (strong?.tagName !== 'STRONG' || strong.previousSibling?.textContent.trim()) continue;
+    const qm = strong.textContent.trim().match(new RegExp(`^(${NUM})(?:\\s*[–-]\\s*${NUM})?\\s*(.*)$`));
+    if (!qm) continue;
+    let name = '';
+    for (let n = strong.nextSibling; n && n.nodeName !== 'UL'; n = n.nextSibling) name += n.textContent;
+    // Cut at the first comma, unless the commas belong to an "A, B, or C" list of alternatives.
+    const parts = name.split(/[(→—]/)[0].split(',');
+    const orAt = parts.findIndex((p, i) => i > 0 && /^\s*or\b/.test(p));
+    name = parts.slice(0, orAt > 0 ? orAt + 1 : 1).join(',').trim();
+    if (!name) continue;
+    const unit = qm[2];
+    const isRange = /[–-]/.test(strong.textContent);
+    const key = `${name.toLowerCase()}|${unit}`;
+    const prev = byKey.get(key);
+    if (prev && !prev.isRange && !isRange) prev.amount += parseNum(qm[1]);
+    else byKey.set(prev ? `${key}|${byKey.size}` : key, { name, unit, isRange, raw: strong.textContent.trim(), amount: parseNum(qm[1]) });
+  }
+  return [...byKey.values()].map(i => ({
+    name: i.name,
+    qty: i.isRange ? i.raw : `${formatQty(i.amount, i.unit)}${i.unit ? ` ${i.unit}` : ''}`,
+  }));
+}
+
 // Split the markdown into title / intro / steps using marked's token stream.
 function parseRecipe(md) {
   // "**Serves:** 2" in the intro sets the base portions; the stepper replaces that line.
@@ -158,8 +187,12 @@ async function showRecipe(slug) {
       <button id="more" type="button" aria-label="More">+</button>
       <button id="servings-reset" type="button" hidden>reset</button>
     </div>
-    <div class="progress"><div class="progress-bar"></div></div>
     ${recipe.introHtml.trim() ? `<div class="intro">${recipe.introHtml}</div>` : ''}
+    <details class="ingredients" hidden>
+      <summary>Ingredients</summary>
+      <ul></ul>
+    </details>
+    <div class="progress"><div class="progress-bar"></div></div>
     <div class="steps">
       ${recipe.steps.map((s, i) => `
         <section class="step" data-step="${i}">
@@ -253,8 +286,19 @@ async function showRecipe(slug) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  // Ingredient overview, built from the step items (must run before quantities are wrapped for scaling).
+  const ingredients = collectIngredients(app.querySelector('.steps'));
+  const details = app.querySelector('.ingredients');
+  if (ingredients.length) {
+    details.hidden = false;
+    details.querySelector('summary').textContent = `Ingredients (${ingredients.length})`;
+    details.querySelector('ul').innerHTML = ingredients.map(i => `<li><strong>${escapeHtml(i.qty)}</strong> ${escapeHtml(i.name)}</li>`).join('');
+    details.open = store.get(`ingredients-open:${slug}`, true);
+    details.addEventListener('toggle', () => store.set(`ingredients-open:${slug}`, details.open));
+  }
+
   // Servings stepper. Without a "Serves:" line we can only offer a batch multiplier.
-  const qtySpans = markQuantities(app.querySelector('.steps'));
+  const qtySpans = [details, app.querySelector('.steps')].flatMap(markQuantities);
   const base = recipe.servings;
   const stepSize = base ? 1 : 0.5;
   let amount = store.get(`servings:${slug}`, base ?? 1);

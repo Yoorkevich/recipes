@@ -60,6 +60,14 @@ em { color: var(--muted); }
 .qty.changed { color: var(--accent); }
 li.task.done .qty.changed { color: inherit; }
 
+.ingredients {
+  border: 1px solid var(--rule); border-radius: 10px; background: var(--card);
+  margin-bottom: 16px; padding: 0 14px;
+}
+.ingredients summary { padding: 12px 0; font-weight: 600; cursor: pointer; }
+.ingredients ul { margin: 0 0 12px; padding-left: 1.2em; columns: 2 14em; column-gap: 24px; }
+.ingredients li { break-inside: avoid; padding: 2px 0; }
+
 .progress { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin: 0 0 20px; }
 .progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
 .intro { margin-bottom: 16px; }
