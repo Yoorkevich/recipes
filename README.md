@@ -31,9 +31,17 @@ My recipes, published at **https://yoorkevich.github.io/recipes/**.
 - Round to amounts you can measure on a kitchen scale: whole grams above 10 g, 0.5 g below that.
 - Salt: say which kind, because volumes differ (`½ tsp kosher salt *(or ¼ tsp fine table salt)*`).
 
+### Portions
+
+- Every recipe states its base portions on its own line right after the title: `**Serves:** 2`. The site turns this into a − / + stepper.
+- When you change portions, **every number in an ingredient line scales**, except sizes, temperatures and times (`mm`, `cm`, `°C`, `min`, `s`, `h`, `%`) and step references (`Step 2`).
+  - So write counts as numbers (`**2** eggs`, `½ onion`) and anything that must *not* scale in words: `*(one per bowl)*`, not `*(1 per bowl)*`.
+  - Scaled grams/ml round to whole numbers (half units below 10); spoons and counts round to the nearest ¼.
+- Without a `Serves:` line the stepper becomes a batch multiplier (×½, ×1, ×1½…).
+
 ### Structure
 
-- `# Title`: the dish name, in title case.
+- `# Title`: the dish name, in title case. Then the `**Serves:**` line.
 - **Intro** (optional, before the first step): servings, total time, notes on equipment or substitutions.
 - `## Step name`: one step per stage of cooking. **The ingredients for a step go inside that step** (mise en place style), so you never need to scroll back to an ingredients list.
   - Add a short hint in italics if useful: `## Sauce *(mix in a small bowl)*`.

@@ -1,5 +1,7 @@
 # Beef and Broccoli
 
+**Serves:** 2
+
 ---
 
 ## Step 1 — Beef + Marinade

@@ -1,5 +1,7 @@
 # Recipe Title
 
+**Serves:** 2
+
 *Optional intro: servings, total time, notes. Anything before the first step shows above the step cards.*
 
 ---

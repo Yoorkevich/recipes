@@ -49,6 +49,17 @@ em { color: var(--muted); }
   border: 1px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer;
 }
 
+.servings { display: flex; align-items: center; gap: 12px; margin: -4px 0 16px; }
+.servings button {
+  font: inherit; color: var(--fg); background: var(--card); cursor: pointer;
+  border: 1px solid var(--rule); border-radius: 50%; width: 36px; height: 36px; line-height: 1;
+}
+.servings button:hover { border-color: var(--accent); }
+.servings #servings-reset { width: auto; border-radius: 6px; padding: 0 10px; height: 28px; font-size: 0.85rem; color: var(--muted); }
+.servings-label { min-width: 7.5em; text-align: center; }
+.qty.changed { color: var(--accent); }
+li.task.done .qty.changed { color: inherit; }
+
 .progress { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin: 0 0 20px; }
 .progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
 .intro { margin-bottom: 16px; }
@@ -106,7 +117,7 @@ li.task ul { margin: 2px 0 0; }
 
 @media print {
   :root { --bg: #fff; --fg: #000; --muted: #555; --card: #fff; --rule: #ccc; --done: #999; }
-  .toolbar, .progress, .step-done { display: none; }
+  .toolbar, .progress, .step-done, .servings button { display: none; }
   .step-body { display: block !important; }
   .step { opacity: 1 !important; box-shadow: none !important; }
 }
