@@ -1,26 +1,15 @@
+/* Always dark: neutral greys on black, IDE-style. */
 :root {
-  --bg: #fbf8f3;
-  --fg: #2b2622;
-  --muted: #8a8079;
-  --accent: #b5512b;
-  --rule: #e6ded3;
-  --done: #b9b0a8;
-  --card: #ffffff;
-  --shadow: rgba(60, 40, 20, 0.08);
-  --ok: #5a8a5e;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1a18;
-    --fg: #ece6df;
-    --muted: #9a9089;
-    --accent: #e58a5e;
-    --rule: #3a3531;
-    --done: #6b635d;
-    --card: #24211e;
-    --shadow: rgba(0, 0, 0, 0.3);
-    --ok: #7fb083;
-  }
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: #d4d4d4;
+  --muted: #808080;
+  --accent: #4fa3ff;
+  --rule: #2a2a2a;
+  --done: #5a5a5a;
+  --card: #111111;
+  --shadow: rgba(79, 163, 255, 0.12);
+  --ok: #4ec98a;
 }
 
 * { box-sizing: border-box; }
@@ -116,6 +105,7 @@ li.task ul { margin: 2px 0 0; }
 .finished { text-align: center; font-size: 1.1rem; margin-top: 24px; }
 
 @media print {
+  :root { --bg: #fff; --fg: #000; --muted: #555; --card: #fff; --rule: #ccc; --done: #999; }
   .toolbar, .progress, .step-done { display: none; }
   .step-body { display: block !important; }
   .step { opacity: 1 !important; box-shadow: none !important; }
