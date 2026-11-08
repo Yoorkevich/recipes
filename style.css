@@ -1,0 +1,67 @@
+:root {
+  --bg: #fbf8f3;
+  --fg: #2b2622;
+  --muted: #8a8079;
+  --accent: #b5512b;
+  --rule: #e6ded3;
+  --done: #b9b0a8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1a18;
+    --fg: #ece6df;
+    --muted: #9a9089;
+    --accent: #e58a5e;
+    --rule: #3a3531;
+    --done: #6b635d;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 680px; margin: 0 auto; padding: 24px 16px 64px; }
+a { color: var(--accent); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0.5em 0; }
+h2 { font-size: 1.2rem; margin: 1.6em 0 0.5em; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 1.5em 0; }
+em { color: var(--muted); }
+.muted { color: var(--muted); }
+
+#search {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.recipe-list { list-style: none; padding: 0; margin: 0; }
+.recipe-list li { border-bottom: 1px solid var(--rule); }
+.recipe-list a { display: block; padding: 12px 2px; text-decoration: none; color: var(--fg); }
+.recipe-list a:hover { color: var(--accent); }
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.95rem; }
+.toolbar span { display: flex; gap: 14px; align-items: center; }
+.toolbar button {
+  font: inherit; color: var(--muted); background: none;
+  border: 1px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+}
+
+/* Checklist items: big tap targets for cooking with messy hands. */
+article ul { padding-left: 1.2em; }
+li.task { list-style: none; margin-left: -1.2em; padding: 4px 0; }
+li.task > input { width: 1.15em; height: 1.15em; margin-right: 0.5em; vertical-align: -0.15em; accent-color: var(--accent); }
+li.task.done { color: var(--done); text-decoration: line-through; }
+li.task.done em { color: inherit; }
+li.task ul { margin-top: 2px; }
+
+@media print {
+  .toolbar { display: none; }
+}
