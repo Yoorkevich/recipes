@@ -5,6 +5,9 @@
   --accent: #b5512b;
   --rule: #e6ded3;
   --done: #b9b0a8;
+  --card: #ffffff;
+  --shadow: rgba(60, 40, 20, 0.08);
+  --ok: #5a8a5e;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -14,6 +17,9 @@
     --accent: #e58a5e;
     --rule: #3a3531;
     --done: #6b635d;
+    --card: #24211e;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --ok: #7fb083;
   }
 }
 
@@ -54,14 +60,63 @@ em { color: var(--muted); }
   border: 1px solid var(--rule); border-radius: 6px; padding: 4px 10px; cursor: pointer;
 }
 
+.progress { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin: 0 0 20px; }
+.progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
+.intro { margin-bottom: 16px; }
+
+/* Step cards: the current step is open and highlighted; finished steps fold into one line. */
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step {
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--rule);
+  border-radius: 10px;
+  background: var(--card);
+  scroll-margin-top: 16px;
+  transition: opacity 0.2s ease;
+}
+.step.current { border-left-color: var(--accent); box-shadow: 0 2px 10px var(--shadow); }
+.step.complete { opacity: 0.6; }
+.step.complete:not(.collapsed) { opacity: 1; }
+
+.step-head {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 12px 14px; font: inherit; font-weight: 600; text-align: left;
+  color: inherit; background: none; border: 0; cursor: default;
+}
+.step.complete .step-head { cursor: pointer; }
+.step-num {
+  flex: none; display: grid; place-items: center;
+  width: 1.8em; height: 1.8em; border-radius: 50%;
+  font-size: 0.85rem; background: var(--rule);
+}
+.step.current .step-num { background: var(--accent); color: var(--bg); }
+.step.complete .step-num { background: var(--ok); color: var(--bg); }
+.step-title { flex: 1; }
+.step-title em { font-weight: 400; }
+.step.complete.collapsed .step-title em { display: none; }
+.step-count { flex: none; font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+
+.step-body { padding: 0 14px 14px; }
+.step.collapsed .step-body { display: none; }
+.step-body ul { padding-left: 1.2em; margin: 0 0 12px; }
+.step-done {
+  width: 100%; padding: 10px; font: inherit; cursor: pointer;
+  color: var(--accent); background: none;
+  border: 1px solid var(--accent); border-radius: 8px;
+}
+.step.complete .step-done { color: var(--muted); border-color: var(--rule); }
+
 /* Checklist items: big tap targets for cooking with messy hands. */
-article ul { padding-left: 1.2em; }
-li.task { list-style: none; margin-left: -1.2em; padding: 4px 0; }
-li.task > input { width: 1.15em; height: 1.15em; margin-right: 0.5em; vertical-align: -0.15em; accent-color: var(--accent); }
+li.task { list-style: none; margin-left: -1.2em; padding: 5px 0; }
+li.task > input { width: 1.25em; height: 1.25em; margin-right: 0.55em; vertical-align: -0.2em; accent-color: var(--accent); }
 li.task.done { color: var(--done); text-decoration: line-through; }
 li.task.done em { color: inherit; }
-li.task ul { margin-top: 2px; }
+li.task ul { margin: 2px 0 0; }
+
+.finished { text-align: center; font-size: 1.1rem; margin-top: 24px; }
 
 @media print {
-  .toolbar { display: none; }
+  .toolbar, .progress, .step-done { display: none; }
+  .step-body { display: block !important; }
+  .step { opacity: 1 !important; box-shadow: none !important; }
 }
